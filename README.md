@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Projeto de Recriação do Catálogo Online
 
-## Getting Started
+## 📋 Visão Geral
 
-First, run the development server:
+Este projeto é uma recriação moderna de um catálogo online, com foco em melhorias significativas na qualidade do código
+e manutenibilidade.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Tecnologias Utilizadas
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **React** (v19.0.0)
+- **Next.js** (v15.3.5)
+- **TypeScript**
+- **Material UI** (v7.2.0)
+- **Tailwind CSS**
+- **MySQL2**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💡 Principais Objetivos
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Melhor Manutenibilidade**
+    - Código mais organizado e legível
+    - Estrutura de arquivos mais intuitiva
 
-## Learn More
+2. **Reutilização de Componentes**
+    - Componentes React modulares
+    - Redução de código duplicado
+    - Maior facilidade de manutenção
 
-To learn more about Next.js, take a look at the following resources:
+3. **Performance Aprimorada**
+    - Utilização de recursos modernos do React
+    - Otimização de carregamento com Next.js
+    - Tipagem forte com TypeScript
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🎯 Melhorias em Relação à Versão Anterior
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Substituição de código legado por componentes React reutilizáveis
+- Implementação de tipagem estática com TypeScript
+- Melhor organização de estados e props
+- Interface mais moderna e responsiva com Material UI
+- Estilização mais eficiente com Tailwind CSS
 
-## Deploy on Vercel
+## 📚 Bibliotecas Principais
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **react-dom**: v19.0.0
+- **@mui/material**: v7.2.0
+- **swiper**: v11.2.10
+- **lucide-react**: v0.525.0
+- **@emotion/react** e **@emotion/styled**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔄 Gerenciamento de Dependências
+
+- Gerenciador de pacotes: npm
+- Configuração de desenvolvimento com ESLint
+- Tipos TypeScript incluídos (@types/react, @types/node)
+
+## 🎨 UI/UX
+
+- Interface moderna e intuitiva
+- Componentes reutilizáveis do Material UI
+- Estilos customizados com Tailwind CSS
+- Animações suaves e responsivas
+
+## 📦 Banco de Dados
+
+- MySQL2 para persistência de dados
+- Integração com mysql2-promise para operações assíncronas
+
+## 🚀 Próximos Passos
+
+1. Continuar a migração de componentes legados
+2. Implementar testes automatizados
+3. Otimizar performance
+4. Expandir a documentação
+5. Adicionar novas funcionalidades

@@ -1,9 +1,9 @@
-import type { NextConfig } from "next";
+import type {NextConfig} from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
     images: {
-        domains: ['placehold.co','s3.amazonaws.com'],
+        domains: ['placehold.co', 's3.amazonaws.com', "upload.wikimedia.org"],
         dangerouslyAllowSVG: true,
         contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },

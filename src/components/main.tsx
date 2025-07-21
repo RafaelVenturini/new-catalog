@@ -1,15 +1,26 @@
 "use client"
 import {useEffect, useState} from "react";
-import {MainProducts} from "@components/product-list/main-products";
+import {useSearchParams} from "next/navigation";
+import {useList} from "@components/listContext";
+import {PageLoad} from "@components/ui/loading";
+import {Box, useMediaQuery} from "@mui/material";
+import {adaptRawProductToNew} from "@components/util";
 import {MainMenu} from "@components/main-menu/main-menu";
-import {Box} from "@mui/material";
-import {productList, rawProductList} from "@components/interfaces";
-import {Category} from "@components/interfaces";
+import {DesktopReturn} from "@components/main-menu/desktop-return";
+import {OpenListButton} from "@components/client-list/list-buttons";
+import {MainProducts} from "@components/product-list/main-products";
+import {Category, Highlights, productList, rawProductList} from "@components/interfaces";
 
 export function Index() {
-    const [category,setCategory] = useState<Category | null>()
     const [rawProductList,setRawProductList] = useState<rawProductList[]>([])
     const [newProductList,setNewProductList] = useState<productList[]>([])
+    const [categoryReady, setCategoryReady] = useState<boolean>(false)
+    const [highlights, setHighlights] = useState<Highlights[]>([])
+    const [category, setCategory] = useState<Category | null>()
+    const isDesktop = useMediaQuery('(min-width: 900px)')
+    const [load, setLoad] = useState<boolean>(true)
+    const {getListData, outOfStock} = useList()
+    const searchParams = useSearchParams()
 
     // useEffect(() => {
     //     fetch('/api/coletar-catalogo')
@@ -26,50 +37,64 @@ export function Index() {
     }, []);
 
     useEffect(() => {
-        const newProductList: productList[] = []
-        rawProductList.forEach(item => {
-            const skuSegmentado = item.sku.split('-')
-            const skuBase = skuSegmentado.slice(0,-1).join('-')
-            const idx = newProductList.findIndex(x => x.sku === skuBase)
-            if(idx === -1) {
-                newProductList.push(
-                    {
-                        nome: item.nome,
-                        sku:skuBase,
-                        preco:parseFloat(item.preco),
-                        prioridade:item.prioridade,
-                        variation:[
-                            {
-                                img: item.img,
-                                reposicao: item.reposicao,
-                                novidade: item.novidade,
-                                cor: item.cor,
-                                sku: skuSegmentado[skuSegmentado.length - 1],
-                                hex: item.hex
-                            }
-                        ]
-                    }
-                )
-            }else{
-                newProductList[idx].variation.push({
-                    img: item.img,
-                    reposicao: item.reposicao,
-                    novidade: item.novidade,
-                    cor: item.cor,
-                    sku: skuSegmentado[skuSegmentado.length - 1],
-                    hex: item.hex
-                })
-            }
-        })
-        setNewProductList(newProductList)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-expect-error
+        if (!rawProductList || rawProductList.error) {
+            console.log(rawProductList)
+        } else {
+            const {productList,highlights} = adaptRawProductToNew(rawProductList)
+            setHighlights(highlights)
+            setNewProductList(productList.sort((a, b) => b.prioridade - a.prioridade))
+            const tinyInStock = new Set(rawProductList.map(p => p.sku))
+            const clientList = getListData()
+            const tinyOutStock = clientList.list
+                .filter(item => !tinyInStock.has(item.sku))
+                .map(item => item.sku);
+            tinyOutStock.forEach(sku => outOfStock(sku))
+        }
     }, [rawProductList]);
 
+    useEffect(() => {
+        const id = (searchParams.get('vend'))
+        switch (id) {
+            case '0':
+                localStorage.setItem('vend', '0');
+                break
+            case '1':
+                localStorage.setItem('vend', '1');
+                break
+            case '2':
+                localStorage.setItem('vend', '2');
+                break
+            case '3':
+                localStorage.setItem('vend', '3');
+                break
+            default:
+                const local = localStorage.getItem('vend')
+                if (!local) {
+                    const newNumber = Math.floor(Math.random() * 3)
+                    localStorage.setItem('vend', newNumber.toString())
+                }
+                break
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
+        if (newProductList.length > 1 && categoryReady) setLoad(false)
+        else setLoad(true)
+    }, [categoryReady, newProductList]);
+
     return(
-        <Box>
-            {category ?
-                <MainProducts key="Products" stockItens={newProductList} category={category} backOn={setCategory}/>
-                : <MainMenu key="Menu" chosenCategory={setCategory}/>
+        <Box component="main">
+            {isDesktop && <DesktopReturn/>}
+            {!isDesktop && load && <PageLoad/>}
+            {!isDesktop ?
+                category ?
+                    <MainProducts key="Products" stockItens={newProductList} category={category} backOn={setCategory}/> :
+                    <MainMenu key="Menu" chosenCategoryAction={setCategory} highlights={highlights} categoryReady={setCategoryReady}/>
+                :null
             }
+            <OpenListButton/>
         </Box>
     )
 }

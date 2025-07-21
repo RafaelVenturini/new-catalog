@@ -1,12 +1,12 @@
 import mysql from 'mysql2/promise'
+import * as process from "node:process";
 
-export const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'catalogo',
-    password: 'catalogando',
-    database: 'liss_fitness',
-    pool: true,
+export const connection =  mysql.createPool({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
     waitForConnections: true,
-    connectionLimit: 0,
+    connectionLimit: 10,
     queueLimit: 0,
 })
