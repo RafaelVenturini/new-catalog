@@ -82,10 +82,9 @@ export function SendListButton() {
         const listData = getListData()
         const url = window.location.host
         let param = ''
-        const zap = localStorage.getItem('vend')
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const numZap = vendedoras[zap].num
+        let zap = localStorage.getItem('vend')
+	    if(!zap) { zap = Math.floor(Math.random() * 3).toString()}
+	    const numZap = vendedoras.find(x => x.id === parseInt(zap))?.num
         listData.list.forEach((item, i) => {
             if (i === listData.list.length - 1) {
                 param += `id=${item.qntd}_${item.tiny_id}`

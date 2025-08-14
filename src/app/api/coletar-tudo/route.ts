@@ -11,10 +11,10 @@ export async function GET() {
                 p.preco,
                 p.promocao,
                 p.img,
-                FLOOR(RAND() * 2) as reposicao,
+                ca.reposicao as reposicao,
                 ca.destaque,
-                FLOOR(RAND() * 2) as novidade,
-                FLOOR(RAND() * 6) as prioridade,
+                ca.novidade as novidade,
+                ca.prioridade as prioridade,
                 IF(p.mul_id IS NULL, co.nome, m.nome) AS cor,
                 IF(p.mul_id IS NULL, co.hex, mc.hex_cores) AS hex
             FROM produto p
@@ -39,6 +39,7 @@ export async function GET() {
               AND (m.nome IS NOT NULL OR co.nome IS NOT NULL)
               AND p.nome NOT LIKE '%Nude%'
               AND p.tiny_id <> 889739774
+            	AND ca.estoque = 1
             ;
         `)
         console.log(rows);

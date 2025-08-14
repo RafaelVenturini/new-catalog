@@ -56,26 +56,15 @@ export function Index() {
 
     useEffect(() => {
         const id = (searchParams.get('vend'))
-        switch (id) {
-            case '0':
-                localStorage.setItem('vend', '0');
-                break
-            case '1':
-                localStorage.setItem('vend', '1');
-                break
-            case '2':
-                localStorage.setItem('vend', '2');
-                break
-            case '3':
-                localStorage.setItem('vend', '3');
-                break
-            default:
-                const local = localStorage.getItem('vend')
-                if (!local) {
-                    const newNumber = Math.floor(Math.random() * 3)
-                    localStorage.setItem('vend', newNumber.toString())
-                }
-                break
+        if(id && ['3','2','1','0'].includes(id)) {
+            localStorage.setItem('vend', id);
+        }
+        else{
+            const local = localStorage.getItem('vend')
+            if (!local) {
+                const newNumber = Math.floor(Math.random() * 3)
+                localStorage.setItem('vend', newNumber.toString())
+            }
         }
     }, [searchParams]);
 

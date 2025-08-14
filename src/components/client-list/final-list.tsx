@@ -58,20 +58,33 @@ export function FinalList() {
                 display: 'flex',
                 flexDirection: 'column',
                 paddingTop: '100px',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+	            backgroundColor: "#000"
             }}
         >
             <Box
                 sx={{
+	                backgroundColor: "#000",
                     flex:1,
                     minHeight:0,
-                    overflowY: 'scroll'
+                    overflowY: 'scroll',
+	                maxHeight: '65%'
                 }}
             >
                 <FinalListHeader/>
                 {outOfStock    > 0 ? <WarnOutOfStock out={outOfStock}/> : null}
-                {search.length > 0 ? itens.map(x => <FinalListRow key={x.tiny_id} lista={x}/>) : <EmptyList/>}
-                {search.length > 0 ? <ListFooter qntd={footer.qntd} total={footer.total}/> : null}
+	            {search.length > 0 ?
+		            (
+			            <>
+				            {itens.map(x => (
+					            <FinalListRow key={x.tiny_id} lista={x}/>
+				            ))}
+				            <ListFooter qntd={footer.qntd} total={footer.total}/>
+			            </>
+		            ) :
+		            (<EmptyList/>)
+	            }
+            
             </Box>
         </Box>
     )

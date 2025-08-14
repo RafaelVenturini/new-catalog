@@ -25,6 +25,7 @@ export function ListFooter({qntd, total}: Props) {
                     position: 'absolute',
                     bottom: 0,
                     width: '100%',
+	                					backgroundColor: '#FFFFFF',
                 }}
             >
                 <Divider/>

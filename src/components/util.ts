@@ -19,10 +19,10 @@ export const colors = {
 }
 
 export const vendedoras = [
-    {id: 0, num: '', name: 'Site'},
+    {id: 0, num: '996921314', name: 'Site'},
     {id: 1, num: '996711314', name: 'Nicoly'},
     {id: 2, num: '995067359', name: 'Ramone'},
-    {id: 3, num: '996921314', name: '?'},
+    {id: 3, num: '996921314', name: 'Lorrayne'},
 ]
 
 export function adaptProductToList(item: productList, index: number) {

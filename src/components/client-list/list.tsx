@@ -31,7 +31,7 @@ export function OpenList({handleCloseAction}: Props) {
                 flexDirection: 'column'
             }}
         >
-            <Box>
+            <Box sx={{height:"63vh"}}>
                 <ListHeader handleCloseAction={handleCloseAction}/>
                 <Box className={'wrapper-saved-product-list'}>
                     {out > 0 ? <WarnOutOfStock out={out}/> : null}
