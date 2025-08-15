@@ -1,6 +1,5 @@
 "use client"
 import {useEffect, useState} from "react";
-import {useSearchParams} from "next/navigation";
 import {useList} from "@components/listContext";
 import {PageLoad} from "@components/ui/loading";
 import {Box, useMediaQuery} from "@mui/material";
@@ -11,7 +10,9 @@ import {OpenListButton} from "@components/client-list/list-buttons";
 import {MainProducts} from "@components/product-list/main-products";
 import {Category, Highlights, productList, rawProductList} from "@components/interfaces";
 
-export function Index() {
+export function Index({searchParams} :{
+	searchParams: { [key: string]: string | string[] | undefined }
+}) {
     const [rawProductList,setRawProductList] = useState<rawProductList[]>([])
     const [newProductList,setNewProductList] = useState<productList[]>([])
     const [categoryReady, setCategoryReady] = useState<boolean>(false)
@@ -20,7 +21,6 @@ export function Index() {
     const isDesktop = useMediaQuery('(min-width: 900px)')
     const [load, setLoad] = useState<boolean>(true)
     const {getListData, outOfStock} = useList()
-    const searchParams = useSearchParams()
 
     // useEffect(() => {
     //     fetch('/api/coletar-catalogo')
@@ -55,7 +55,7 @@ export function Index() {
     }, [rawProductList]);
 
     useEffect(() => {
-        const id = (searchParams.get('vend'))
+	    const id = searchParams.vend as string
         if(id && ['3','2','1','0'].includes(id)) {
             localStorage.setItem('vend', id);
         }

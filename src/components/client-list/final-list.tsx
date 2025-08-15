@@ -1,7 +1,6 @@
 "use client"
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
-import {useSearchParams} from "next/navigation";
 import {EmptyList} from "@components/client-list/empty-list";
 import {FinalListHeader, WarnOutOfStock} from "@components/client-list/list-header";
 import {FinalListRow} from "@components/client-list/list-row";
@@ -22,10 +21,11 @@ interface Footer{
     total:number
 }
 
-export function FinalList() {
+export function FinalList({searchParams} : {
+	searchParams: { [key: string]: string | string[] | undefined }
+}) {
     const [itens, setItens] = useState<Itens[]>([])
-    const params = useSearchParams()
-    const search = params.getAll('id')
+    const search = searchParams.id as string
     const [outOfStock, setOutOfStock] = useState<number>(0)
     const [footer, setFooter] = useState<Footer>({qntd:0, total:0})
 
