@@ -110,3 +110,10 @@ export function adaptRawProductToNew(rawProductList: rawProductList[]) {
         highlights: newHighlights
     }
 }
+
+export type SearchParams = {
+	searchParams: { [key: string]: string | string[] | undefined };
+}
+export type PromiseSearchParams = {
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}

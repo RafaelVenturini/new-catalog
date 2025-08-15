@@ -3,16 +3,15 @@ import {useEffect, useState} from "react";
 import {useList} from "@components/listContext";
 import {PageLoad} from "@components/ui/loading";
 import {Box, useMediaQuery} from "@mui/material";
-import {adaptRawProductToNew} from "@components/util";
+import {adaptRawProductToNew, SearchParams} from "@components/util";
 import {MainMenu} from "@components/main-menu/main-menu";
 import {DesktopReturn} from "@components/main-menu/desktop-return";
 import {OpenListButton} from "@components/client-list/list-buttons";
 import {MainProducts} from "@components/product-list/main-products";
 import {Category, Highlights, productList, rawProductList} from "@components/interfaces";
 
-export function Index({searchParams} :{
-	searchParams: { [key: string]: string | string[] | undefined }
-}) {
+
+export function Index({searchParams} :SearchParams) {
     const [rawProductList,setRawProductList] = useState<rawProductList[]>([])
     const [newProductList,setNewProductList] = useState<productList[]>([])
     const [categoryReady, setCategoryReady] = useState<boolean>(false)
@@ -55,17 +54,20 @@ export function Index({searchParams} :{
     }, [rawProductList]);
 
     useEffect(() => {
-	    const id = searchParams.vend as string
-        if(id && ['3','2','1','0'].includes(id)) {
-            localStorage.setItem('vend', id);
-        }
-        else{
-            const local = localStorage.getItem('vend')
-            if (!local) {
-                const newNumber = Math.floor(Math.random() * 3)
-                localStorage.setItem('vend', newNumber.toString())
-            }
-        }
+		if (searchParams){
+		    const id = Array.isArray(searchParams.vend) ? searchParams.vend[0] : searchParams.vend ?? '';
+			
+			if(id && ['3','2','1','0'].includes(id)) {
+	            localStorage.setItem('vend', id);
+	        }
+	        else{
+	            const local = localStorage.getItem('vend')
+	            if (!local) {
+	                const newNumber = Math.floor(Math.random() * 3)
+	                localStorage.setItem('vend', newNumber.toString())
+	            }
+	        }
+		}
     }, [searchParams]);
 
     useEffect(() => {

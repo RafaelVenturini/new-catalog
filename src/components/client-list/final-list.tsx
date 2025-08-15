@@ -5,6 +5,7 @@ import {EmptyList} from "@components/client-list/empty-list";
 import {FinalListHeader, WarnOutOfStock} from "@components/client-list/list-header";
 import {FinalListRow} from "@components/client-list/list-row";
 import {ListFooter} from "@components/client-list/list-footer";
+import {SearchParams} from "@components/util";
 
 interface Itens{
     nome:string,
@@ -21,16 +22,14 @@ interface Footer{
     total:number
 }
 
-export function FinalList({searchParams} : {
-	searchParams: { [key: string]: string | string[] | undefined }
-}) {
+export function FinalList({searchParams} : SearchParams) {
     const [itens, setItens] = useState<Itens[]>([])
-    const search = searchParams.id as string
+    const search = searchParams.id
     const [outOfStock, setOutOfStock] = useState<number>(0)
     const [footer, setFooter] = useState<Footer>({qntd:0, total:0})
 
     useEffect(() => {
-        if (search.length > 0){
+        if (search && search.length > 0){
             console.log('[search] Params: ',search)
 
             fetch(`api/coletar-itens-da-lista?i=${search}`)
@@ -47,8 +46,7 @@ export function FinalList({searchParams} : {
                     setOutOfStock(r.itens.length - f.length)
                 })
         }
-
-    }, []);
+    }, [search]);
 
     console.log('[search] Itens: ',itens)
     return(
@@ -73,7 +71,7 @@ export function FinalList({searchParams} : {
             >
                 <FinalListHeader/>
                 {outOfStock    > 0 ? <WarnOutOfStock out={outOfStock}/> : null}
-	            {search.length > 0 ?
+	            {search && search.length > 0 ?
 		            (
 			            <>
 				            {itens.map(x => (

@@ -17,8 +17,11 @@ interface Row{
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-expect-error
 export async function GET(req) {
-    const reqI = req.nextUrl.searchParams.get('i')
-    const ids = reqI.split(',')
+    const reqI = req.nextUrl.searchParams.getAll('i')
+	let ids: string[] = [];
+	if (reqI) {
+		ids = reqI.split(',');
+	}
     console.log('ids:',ids);
 
     const paramObj:ParamObj[] = ids.map((id: string) => {
