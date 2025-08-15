@@ -1,5 +1,7 @@
 import {Index} from "@components/main";
 import {HeaderSEO} from "@components/HeaderSEO";
+import {Suspense} from "react";
+import {Typography} from "@mui/material";
 
 export default function main({
 	                             searchParams
@@ -9,7 +11,9 @@ export default function main({
 	return(
 		<>
 			<HeaderSEO/>
-			<Index key='index' searchParams={searchParams} />
+			<Suspense fallback={<Typography> Aguarde enquanto Carregamos o catálogo!</Typography> }>
+				<Index key='index' searchParams={searchParams} />
+			</Suspense>
 		</>
 	)
 }
